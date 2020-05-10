@@ -44,18 +44,37 @@ def delete_user(userID):
         curr.execute(
             """
             DELETE FROM users WHERE userid = %s;
+            """,
+            (userID,)
+        )
+        conn.commit()
 
+    except Exception as e:
+        raise
+
+    finally:
+        if curr:
+            curr.close()
+        if conn:
+            conn.close()
+
+def remove_user_from_room(userID, roomID):
+    conn = None
+    curr = None
+    try:
+        conn = psycopg2.connect(DB_PATH)
+        curr = conn.cursor()
+        query = """
             UPDATE active_games SET p1 = NULL
-            WHERE p1 = %s;
+            WHERE p1 = %s AND roomid = %s;
 
             UPDATE active_games SET p2 = NULL
-            WHERE p2 = %s;
+            WHERE p2 = %s AND roomid = %s;
 
             DELETE FROM active_games
-            WHERE p1 IS NULL and p2 IS NULL;
-            """,
-            (userID, userID, userID,)
-        )
+            WHERE p1 IS NULL and p2 IS NULL and roomid = %s;
+            """
+        curr.execute(query, (userID, roomID, userID, roomID, roomID,))
         conn.commit()
 
     except Exception as e:

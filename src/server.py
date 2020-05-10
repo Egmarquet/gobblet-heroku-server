@@ -47,12 +47,12 @@ def disconnect():
     Emits "disconnect" status to prompt other player in lobby to
     also disconnect from the socket
     """
-    print("deleting user")
     sid = request.sid
     room_data = database.user_in_room(sid)
     if room_data:
         payload = lobby_status("disconnected",room_data[0],None,None)
-        emit('lobby_status', payload, broadcast=True)
+        database.remove_user_from_room(sid, room_data[0])
+        emit('lobby_status', payload, room=room_data[0], broadcast=True)
         leave_room(room_data[0])
 
     database.delete_user(sid)
@@ -88,7 +88,6 @@ def join_lobby(data):
         roomID, p1, p2 = room_data
         # lobby is full
         if p1 and p2:
-            print("Attempting to join fully lobby")
             payload = lobby_status("full", roomID, None, None)
             emit("lobby_status", payload)
 
