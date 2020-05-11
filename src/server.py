@@ -3,9 +3,10 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask_cors import CORS, cross_origin
 from src import database
 import uuid, base64, json
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "my_secret_key"
+app.config['SECRET_KEY'] = os.environ['FLASK_SECRET_KEY']
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 """
