@@ -1,12 +1,11 @@
 from flask import Flask, request, session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask_cors import CORS, cross_origin
-import config_globals
 import database
 import uuid, base64, json
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config_globals.SECRET_KEY
+app.config['SECRET_KEY'] = "my_secret_key"
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 """
@@ -117,3 +116,6 @@ def make_move(data):
         Emits on socket 'get_move' the move and sender
     """
     emit('get_move', data, room=data['roomID'])
+
+if __name__ == "__main__":
+    socketio.run(app)

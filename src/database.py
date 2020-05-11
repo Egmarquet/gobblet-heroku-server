@@ -1,8 +1,7 @@
 import os, uuid, base64, json
 import psycopg2
-import config_globals
 import datetime
-DB_PATH = config_globals.DB_PATH
+DB_PATH = os.environ['DATABASE_URL']
 
 def add_user(userID):
     conn = None
