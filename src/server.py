@@ -8,7 +8,6 @@ import uuid, base64, json
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config_globals.SECRET_KEY
 socketio = SocketIO(app, cors_allowed_origins="*")
-app.debug = True
 
 """
 Current status of lobby and gamestate:
@@ -118,6 +117,3 @@ def make_move(data):
         Emits on socket 'get_move' the move and sender
     """
     emit('get_move', data, room=data['roomID'])
-
-if __name__ == '__main__':
-    socketio.run(app)

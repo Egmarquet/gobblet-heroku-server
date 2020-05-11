@@ -245,27 +245,3 @@ def get_room(roomID):
         if conn:
             conn.close()
         return output
-
-def get_all_users():
-    conn = None
-    curr = None
-    output = None
-    try:
-        conn = psycopg2.connect(DB_PATH)
-        curr = conn.cursor()
-        curr.execute(
-        """
-        SELECT *
-        FROM users
-        """
-        )
-        output = curr.fetchall()
-    except Exception as e:
-        raise
-
-    finally:
-        if curr:
-            curr.close()
-        if conn:
-            conn.close()
-        return output
