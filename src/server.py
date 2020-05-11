@@ -1,7 +1,7 @@
 from flask import Flask, request, session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask_cors import CORS, cross_origin
-import database
+from src import database
 import uuid, base64, json
 
 app = Flask(__name__)
