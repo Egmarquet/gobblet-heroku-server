@@ -11,7 +11,7 @@ def add_user(userID):
         conn = psycopg2.connect(DB_PATH)
         curr = conn.cursor()
         curr.execute(
-        """INSERT INTO users (userid) VALUES (%s, %s)""",
+        """INSERT INTO users (userid) VALUES (%s)""",
         (userID,)
         )
         conn.commit()
